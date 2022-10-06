@@ -5,6 +5,7 @@ import com.example.shoppingcart.error.UserNotAdminException;
 import com.example.shoppingcart.error.UserNotOwningCategoryException;
 import com.example.shoppingcart.model.AppUser;
 import com.example.shoppingcart.model.Category;
+import com.example.shoppingcart.model.UserInfo;
 import com.example.shoppingcart.model.dto.CategoryDTO;
 import com.example.shoppingcart.repository.CategoryRepo;
 import org.junit.jupiter.api.Assertions;
@@ -42,7 +43,8 @@ public class CategoryServiceTest {
 
     @BeforeEach
     void setup() {
-        admin = AppUser.builder().id(1L).username("admin").usertype(Constants.ADMIN).build();
+        UserInfo adminUserInfo = UserInfo.builder().username("admin").usertype(Constants.ADMIN).build();
+        admin = AppUser.builder().id(1L).userInfo(adminUserInfo).build();
         currentCategoryId = 1L;
         mockCategoriesTable = new ArrayList<>();
     }
@@ -122,7 +124,7 @@ public class CategoryServiceTest {
             categoryService.save(new CategoryDTO.Create("cat1"), user);
         });
         assertEquals(mockCategoriesTable.size(), 0);
-        user.setUsertype(Constants.ADMIN);
+        user.getUserInfo().setUsertype(Constants.ADMIN);
         categoryService.save(new CategoryDTO.Create("cat1"), user);
         assertEquals(mockCategoriesTable.size(), 1);
     }
@@ -141,7 +143,8 @@ public class CategoryServiceTest {
 
     @Test
     public void testDeleteCategoryByInValidUser() {
-        AppUser admin2 = AppUser.builder().id(2L).username("admin2").usertype(Constants.ADMIN).password("").build();
+        UserInfo adminUserInfo = UserInfo.builder().username("admin2").usertype(Constants.ADMIN).build();
+        AppUser admin2 = AppUser.builder().id(2L).userInfo(adminUserInfo).build();
         mockSavingInCategoryRepo();
         mockAuthenticatedUser(admin);
         mockGetCategoryById();
@@ -177,7 +180,8 @@ public class CategoryServiceTest {
     public void testUpdatingCategoryWithInvalidUser() {
         mockSavingInCategoryRepo();
         mockGetCategoryById();
-        AppUser admin2 = AppUser.builder().id(2L).username("admin2").usertype(Constants.ADMIN).build();
+        UserInfo adminUserInfo = UserInfo.builder().username("admin2").usertype(Constants.ADMIN).build();
+        AppUser admin2 = AppUser.builder().id(2L).userInfo(adminUserInfo).build();
         mockAuthenticatedUser(admin);
         Category category = categoryRepo.save(new Category("cat1", admin2));
         category.setName("cat2");

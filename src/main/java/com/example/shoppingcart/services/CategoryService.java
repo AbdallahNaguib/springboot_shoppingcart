@@ -30,7 +30,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public CategoryDTO.Retrieve save(CategoryDTO.Create category, AppUser owner) {
         Category entity = category.mapToEntity();
-        if (!owner.getUsertype().equals(Constants.ADMIN)) {
+        if (!owner.getUserInfo().getUsertype().equals(Constants.ADMIN)) {
             throw new UserNotAdminException();
         }
         entity.setUser(owner);

@@ -6,6 +6,7 @@ import com.example.shoppingcart.error.UserNotOwningCategoryException;
 import com.example.shoppingcart.model.AppUser;
 import com.example.shoppingcart.model.Category;
 import com.example.shoppingcart.model.Product;
+import com.example.shoppingcart.model.UserInfo;
 import com.example.shoppingcart.model.dto.CategoryDTO;
 import com.example.shoppingcart.model.dto.ProductDTO;
 import com.example.shoppingcart.repository.ProductRepo;
@@ -44,7 +45,8 @@ public class ProductServiceTest {
 
     @BeforeEach
     void before() {
-        admin = AppUser.builder().id(1L).username("admin").usertype(Constants.ADMIN).build();
+        UserInfo adminUserInfo = UserInfo.builder().username("admin").usertype(Constants.ADMIN).build();
+        admin = AppUser.builder().id(1L).userInfo(adminUserInfo).build();
         currentProductId = 1L;
         mockProductsTable = new ArrayList<>();
     }

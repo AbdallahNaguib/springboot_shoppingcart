@@ -3,6 +3,7 @@ package com.example.shoppingcart;
 import com.example.shoppingcart.model.AppUser;
 import com.example.shoppingcart.model.Category;
 import com.example.shoppingcart.model.Product;
+import com.example.shoppingcart.model.dto.UserDTO;
 import com.example.shoppingcart.repository.CategoryRepo;
 import com.example.shoppingcart.repository.ProductRepo;
 import com.example.shoppingcart.services.interfaces.IUserService;
@@ -24,11 +25,19 @@ public class ShoppingcartApplication {
     @Bean
     CommandLineRunner run(CategoryRepo categoryRepo, IUserService userService, ProductRepo productRepo) {
         return args -> {
-            userService.createCustomer(new AppUser("abdo", "password", Constants.CUSTOMER));
-            AppUser admin = new AppUser("admin", "password", Constants.ADMIN);
-            AppUser admin2 = new AppUser("admin2", "password", Constants.ADMIN);
-            userService.createAdmin(admin);
-            userService.createAdmin(admin2);
+            userService.createCustomer(UserDTO.Create.builder()
+                    .username("abdo")
+                    .password("password")
+                    .build());
+
+            AppUser admin = userService.createAdmin(UserDTO.Create.builder()
+                    .username("admin")
+                    .password("password")
+                    .build());
+            userService.createAdmin(UserDTO.Create.builder()
+                    .username("admin2")
+                    .password("password")
+                    .build());
             Category category = new Category("cat1", admin);
             Category category2 = new Category("cat2", admin);
             categoryRepo.save(category);

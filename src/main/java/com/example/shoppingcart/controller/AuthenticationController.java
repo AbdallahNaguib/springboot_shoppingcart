@@ -2,6 +2,7 @@ package com.example.shoppingcart.controller;
 
 import com.example.shoppingcart.error.UsernameAlreadyUsedException;
 import com.example.shoppingcart.model.AppUser;
+import com.example.shoppingcart.model.dto.UserDTO;
 import com.example.shoppingcart.security.JwtRequest;
 import com.example.shoppingcart.security.JwtResponse;
 import com.example.shoppingcart.services.UserService;
@@ -45,13 +46,13 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<?> register(@Valid AppUser user) throws UsernameAlreadyUsedException {
+    public ResponseEntity<?> register(@Valid @RequestBody UserDTO.Create user) throws UsernameAlreadyUsedException {
         userDetailsService.createCustomer(user);
         return ResponseEntity.created(null).build();
     }
 
     @PostMapping(value = "/register_admin")
-    public ResponseEntity<?> registerAdmin(@Valid @RequestBody AppUser user) {
+    public ResponseEntity<?> registerAdmin(@Valid @RequestBody UserDTO.Create user) {
         userDetailsService.createAdmin(user);
         return ResponseEntity.created(null).build();
     }

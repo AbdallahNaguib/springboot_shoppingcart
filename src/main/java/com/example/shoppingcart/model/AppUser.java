@@ -28,6 +28,7 @@ public class AppUser implements UserDetails {
     @JoinColumn(name = "user_info")
     private UserInfo userInfo;
 
+
     public AppUser(String username, String password, String usertype) {
         this.userInfo = new UserInfo(username, password, usertype);
     }
