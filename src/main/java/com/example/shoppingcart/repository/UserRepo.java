@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface UserRepo extends JpaRepository<AppUser,Long> {
     @Query(nativeQuery = true,value = "select users.* from users left join user_info on " +
-            "users.user_info = user_info.id where user_info.username = :username")
+            "users.user_info_id = user_info.id where user_info.username = :username")
     List<AppUser> findAppUserByUsername(@Param("username") String username);
 // solve this query issue
 }

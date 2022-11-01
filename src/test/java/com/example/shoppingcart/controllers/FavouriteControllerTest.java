@@ -8,6 +8,7 @@ import com.example.shoppingcart.model.UserInfo;
 import com.example.shoppingcart.model.dto.FavouriteDTO;
 import com.example.shoppingcart.model.dto.ProductDTO;
 import com.example.shoppingcart.repository.ProductRepo;
+import com.example.shoppingcart.repository.UserInfoRepo;
 import com.example.shoppingcart.repository.UserRepo;
 import com.example.shoppingcart.services.SecurityContextService;
 import org.junit.jupiter.api.Assertions;
@@ -30,6 +31,8 @@ public class FavouriteControllerTest {
     @Autowired
     private UserRepo userRepo;
     @Autowired
+    private UserInfoRepo userInfoRepo;
+    @Autowired
     private SecurityContextService securityContextService;
     private AppUser customer,customer2;
     private Product product1,product2,product3;
@@ -41,10 +44,14 @@ public class FavouriteControllerTest {
         product2 = Product.builder().build();
         product3 = Product.builder().build();
         UserInfo customerUserInfo = UserInfo.builder().usertype(Constants.CUSTOMER).build();
+        UserInfo customerUserInfo2 = UserInfo.builder().usertype(Constants.CUSTOMER).build();
+
         customer = AppUser.builder().userInfo(customerUserInfo).build();
-        customer2 = AppUser.builder().userInfo(customerUserInfo).build();
+        customer2 = AppUser.builder().userInfo(customerUserInfo2).build();
         customer = userRepo.save(customer);
         customer2 = userRepo.save(customer2);
+        userInfoRepo.save(customerUserInfo);
+        userInfoRepo.save(customerUserInfo2);
         product1 = productRepo.save(product1);
         product2 = productRepo.save(product2);
         product3 = productRepo.save(product3);
@@ -67,6 +74,6 @@ public class FavouriteControllerTest {
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
 
         securityContextService.setAuthenticatedUser(customer);
-        List<ProductDTO.Retrieve> products = favouriteController.findAllFavourites().getBody();
+//        List<ProductDTO.Retrieve> products = favouriteController.findAllFavourites().getBody();
     }
 }

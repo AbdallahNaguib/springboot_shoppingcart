@@ -61,9 +61,9 @@ public class UserService implements UserDetailsService, IUserService {
         AppUser appUser = AppUser.builder()
                 .userInfo(userInfo)
                 .build();
+        appUser = userRepo.save(appUser);
         userInfo.setUser(appUser);
-
         userInfoRepo.save(userInfo);
-        return userRepo.save(appUser);
+        return appUser;
     }
 }

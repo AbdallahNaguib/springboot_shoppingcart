@@ -25,9 +25,11 @@ public class AppUser implements UserDetails {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_info")
+    @JoinColumn(name = "user_info_id")
     private UserInfo userInfo;
 
+    @OneToMany(mappedBy = "appUser")
+    private List<Favourite> favourites;
 
     public AppUser(String username, String password, String usertype) {
         this.userInfo = new UserInfo(username, password, usertype);
