@@ -33,6 +33,7 @@ public class AuthenticationController {
         this.userDetailsService = userDetailsService;
     }
 
+
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody JwtRequest authenticationRequest) throws Exception {
 

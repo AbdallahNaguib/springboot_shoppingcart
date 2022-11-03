@@ -1,5 +1,13 @@
 type Query {
-    categories:[Category]
+    categories:[Category]!
+    categoryById(id:ID!):Category
+}
+type Mutation {
+    addProduct(product: ProductInput):ID
+}
+
+input ProductInput{
+    name: String!
 }
 type Category {
     id: ID!
